@@ -234,8 +234,27 @@
     <!-- Scroll to top button -->
     <button id="scrollToTopBtn" onclick="scrollToTop()">Top</button>
 
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/8.6.8/firebase-firestore.js"></script>
+    <script>
+        // Your web app's Firebase configuration
+        var firebaseConfig = {
+            apiKey: "YOUR_API_KEY",
+            authDomain: "YOUR_PROJECT_ID.firebaseapp.com",
+            projectId: "YOUR_PROJECT_ID",
+            storageBucket: "YOUR_PROJECT_ID.appspot.com",
+            messagingSenderId: "YOUR_MESSAGING_SENDER_ID",
+            appId: "YOUR_APP_ID"
+        };
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        var db = firebase.firestore();
+    </script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
+            loadPosts();
+
             document.getElementById('submit-form').addEventListener('submit', function(e) {
                 e.preventDefault();
 
@@ -253,10 +272,12 @@
                     reader.onload = function(e) {
                         imageUrl = e.target.result;
                         createPost(title, content, imageUrl);
+                        savePost(title, content, imageUrl);
                     };
                     reader.readAsDataURL(imageInput.files[0]);
                 } else {
                     createPost(title, content, imageUrl);
+                    savePost(title, content, imageUrl);
                 }
 
                 // Clear the form
@@ -286,6 +307,23 @@
                 document.getElementById('blog-posts').prepend(newPost);
             }
 
+            function savePost(title, content, imageUrl) {
+                db.collection("posts").add({
+                    title: title,
+                    content: content,
+                    imageUrl: imageUrl,
+                    timestamp: firebase.firestore.FieldValue.serverTimestamp()
+                });
+            }
+
+            function loadPosts() {
+                db.collection("posts").orderBy("timestamp", "desc").get().then((querySnapshot) => {
+                    querySnapshot.forEach((doc) => {
+                        createPost(doc.data().title, doc.data().content, doc.data().imageUrl);
+                    });
+                });
+            }
+
             window.minimizePost = function(element) {
                 const post = element.closest('article');
                 const content = post.querySelector('pre');
@@ -312,6 +350,12 @@
                 const post = element.closest('article');
                 const confirmDelete = confirm('Are you sure you want to permanently delete this post? This action cannot be undone.');
                 if (confirmDelete) {
+                    const title = post.querySelector('h2').textContent;
+                    db.collection("posts").where("title", "==", title).get().then((querySnapshot) => {
+                        querySnapshot.forEach((doc) => {
+                            doc.ref.delete();
+                        });
+                    });
                     post.remove();
                 }
             };
