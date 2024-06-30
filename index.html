@@ -1,0 +1,357 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>myPlace</title>
+    <style>
+        body {
+            font-family: "Times New Roman", Times, serif;
+            background-color: #FFD1DC;
+            color: #8A2BE2;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+        header {
+            text-align: center;
+            background-color: #E6E6FA;
+            padding: 20px;
+            border: 2px solid #FF69B4;
+        }
+        h1 {
+            color: #FF69B4;
+            text-shadow: 2px 2px #FFB6C1;
+            font-family: "Times New Roman", Times, serif;
+        }
+        nav {
+            text-align: center;
+            margin: 20px 0;
+        }
+        nav a {
+            color: #4B0082;
+            text-decoration: none;
+            margin: 0 10px;
+            font-family: "Times New Roman", Times, serif;
+        }
+        article, form {
+            background-color: #E0FFFF;
+            border: 2px solid #87CEEB;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+            font-family: "Times New Roman", Times, serif;
+        }
+        h2 {
+            color: #FF69B4;
+            font-family: "Times New Roman", Times, serif;
+        }
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 0.8em;
+            font-family: "Times New Roman", Times, serif;
+        }
+        .fade {
+            animation: fadeInOut 2s linear infinite;
+            font-family: "Times New Roman", Times, serif;
+        }
+        @keyframes fadeInOut {
+            0%, 100% { opacity: 0; }
+            50% { opacity: 1; }
+        }
+        .wave-text {
+            display: inline-block;
+        }
+        .wave-text span {
+            display: inline-block;
+            animation: wave 2s infinite;
+            animation-delay: calc(.1s * var(--i));
+        }
+        @keyframes wave {
+            0%, 100% {
+                transform: translateY(0px);
+            }
+            50% {
+                transform: translateY(-10px);
+            }
+        }
+        input, textarea, button {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #87CEEB;
+            background-color: #F0F8FF;
+            box-sizing: border-box;
+            font-family: "Times New Roman", Times, serif;
+        }
+        input[type="submit"], button {
+            background-color: #FF69B4;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        input[type="submit"]:hover, button:hover {
+            background-color: #FF1493;
+        }
+        .post-controls {
+            display: flex;
+            gap: 5px;
+            margin-bottom: 10px;
+        }
+        .post-control {
+            width: 16px;
+            height: 16px;
+            border: 1px solid #000;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            cursor: pointer;
+            user-select: none;
+            font-family: "Times New Roman", Times, serif;
+        }
+        .post-minimize {
+            background-color: #FFFF00;
+            color: #000;
+        }
+        .post-permanent-delete {
+            background-color: #000;
+            color: #FFF;
+        }
+        .minimized {
+            height: auto;
+            overflow: hidden;
+        }
+        .minimized .submitted-text,
+        .minimized img,
+        .minimized pre {
+            display: none;
+        }
+        #submit-form {
+            display: none;
+        }
+        .submitted-text {
+            font-family: "Times New Roman", Times, serif;
+            white-space: pre-wrap;
+        }
+        /* Scroll to top button styles */
+        #scrollToTopBtn {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: none;
+            background-color: #FF69B4;
+            color: white;
+            border: none;
+            padding: 10px;
+            cursor: pointer;
+            border-radius: 5px;
+            font-family: "Times New Roman", Times, serif;
+        }
+
+        #scrollToTopBtn:hover {
+            background-color: #FF1493;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>tiny places</h1>
+        <p class="fade wave-text">
+            <span style="--i:1;">i</span>
+            <span style="--i:2;"> </span>
+            <span style="--i:3;">w</span>
+            <span style="--i:4;">i</span>
+            <span style="--i:5;">s</span>
+            <span style="--i:6;">h</span>
+            <span style="--i:7;"> </span>
+            <span style="--i:8;">i</span>
+            <span style="--i:9;"> </span>
+            <span style="--i:10;">h</span>
+            <span style="--i:11;">a</span>
+            <span style="--i:12;">d</span>
+            <span style="--i:13;"> </span>
+            <span style="--i:14;">a</span>
+            <span style="--i:15;">n</span>
+            <span style="--i:16;">o</span>
+            <span style="--i:17;">t</span>
+            <span style="--i:18;">h</span>
+            <span style="--i:19;">e</span>
+            <span style="--i:20;">r</span>
+            <span style="--i:21;"> </span>
+            <span style="--i:22;">n</span>
+            <span style="--i:23;">a</span>
+            <span style="--i:24;">m</span>
+            <span style="--i:25;">e</span>
+        </p>
+    </header>
+    <nav>
+        <a href="#home">Home</a>
+        <a href="#about">About</a>
+        <a href="#blog">Blog</a>
+        <a href="#submit">Submit</a>
+    </nav>
+    <main>
+        <article>
+            <h2>updates as of 28 june 2024</h2>
+            <p>
+                want to explore the image of memory.<br> want to replicate the unknown through the unknown. <br> generated code. <br> ignorance to the process. <br> familiar with the nostalgia. <br> hallucinate memories. guided through sheer sensation. <br> there is no involvement in the production of this tiny place. <br> only a thing in which was remembered.
+            </p>
+        </article>
+        <div id="blog-posts">
+            <!-- Dynamically added blog posts will appear here -->
+        </div>
+        
+        <div id="unlock-form">
+            <h2>Unlock Submission Form</h2>
+            <label for="unlock-code">Enter Code:</label>
+            <input type="password" id="unlock-code" name="unlock-code" required>
+            <button onclick="unlockForm()">Unlock</button>
+        </div>
+        
+        <form id="submit-form">
+            <h2>Submit Your Work</h2>
+            <label for="title">Title:</label>
+            <input type="text" id="title" name="title" required>
+            
+            <label for="content">Your Writing:</label>
+            <textarea id="content" name="content" rows="10" required></textarea>
+            
+            <label for="image">Upload Image:</label>
+            <input type="file" id="image" name="image" accept="image/*">
+
+            <input type="submit" value="Submit Your Work">
+        </form>
+
+        <button id="lock-button" onclick="lockForm()" style="display: none;">Lock Webpage</button>
+    </main>
+    <footer>
+        <p>© 2024 My 90s Writer's Blog | Made with ❤️ and HTML</p>
+        <img src="https://via.placeholder.com/88x31" alt="90s web counter" />
+    </footer>
+
+    <!-- Scroll to top button -->
+    <button id="scrollToTopBtn" onclick="scrollToTop()">Top</button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('submit-form').addEventListener('submit', function(e) {
+                e.preventDefault();
+
+                let title = document.getElementById('title').value;
+                const content = document.getElementById('content').value;
+                const imageInput = document.getElementById('image');
+                let imageUrl = '';
+
+                if (title.length > 200) {
+                    title = title.substring(0, 200);
+                }
+
+                if (imageInput.files && imageInput.files[0]) {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        imageUrl = e.target.result;
+                        createPost(title, content, imageUrl);
+                    };
+                    reader.readAsDataURL(imageInput.files[0]);
+                } else {
+                    createPost(title, content, imageUrl);
+                }
+
+                // Clear the form
+                document.getElementById('title').value = '';
+                document.getElementById('content').value = '';
+                imageInput.value = '';
+            });
+
+            // Add event listener for pressing Enter key
+            document.getElementById('unlock-code').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    unlockForm();
+                }
+            });
+
+            function createPost(title, content, imageUrl) {
+                const newPost = document.createElement('article');
+                newPost.innerHTML = `
+                    <div class="post-controls">
+                        <div class="post-control post-minimize" onclick="minimizePost(this)">-</div>
+                        <div class="post-control post-permanent-delete" onclick="permanentDeletePost(this)">n</div>
+                    </div>
+                    <h2 class="submitted-text">${title}</h2>
+                    <pre class="submitted-text">${content}</pre>
+                    ${imageUrl ? `<img src="${imageUrl}" alt="Uploaded Image" style="max-width: 100%;">` : ''}
+                `;
+                document.getElementById('blog-posts').prepend(newPost);
+            }
+
+            window.minimizePost = function(element) {
+                const post = element.closest('article');
+                const content = post.querySelector('pre');
+                const image = post.querySelector('img');
+                const title = post.querySelector('h2');
+
+                if (!post.classList.contains('minimized')) {
+                    content.style.display = 'none';
+                    if (image) {
+                        image.style.display = 'none';
+                    }
+                    title.style.display = 'block';  // Always display the title
+                } else {
+                    content.style.display = 'block';
+                    if (image) {
+                        image.style.display = 'block';
+                    }
+                }
+                post.classList.toggle('minimized');
+                element.textContent = post.classList.contains('minimized') ? '+' : '-';
+            };
+
+            window.permanentDeletePost = function(element) {
+                const post = element.closest('article');
+                const confirmDelete = confirm('Are you sure you want to permanently delete this post? This action cannot be undone.');
+                if (confirmDelete) {
+                    post.remove();
+                }
+            };
+        });
+
+        function unlockForm() {
+            const unlockCode = document.getElementById('unlock-code').value;
+            if (unlockCode === '1111') {
+                document.getElementById('submit-form').style.display = 'block';
+                document.getElementById('unlock-form').style.display = 'none';
+                document.getElementById('lock-button').style.display = 'block';
+            } else {
+                alert('Incorrect code. Please try again.');
+            }
+        }
+
+        function lockForm() {
+            document.getElementById('submit-form').style.display = 'none';
+            document.getElementById('unlock-form').style.display = 'block';
+            document.getElementById('lock-button').style.display = 'none';
+            document.getElementById('unlock-code').value = '';
+        }
+
+        // Scroll to top functionality
+        window.onscroll = function() {
+            toggleScrollToTopBtn();
+        };
+
+        function toggleScrollToTopBtn() {
+            const scrollToTopBtn = document.getElementById('scrollToTopBtn');
+            if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+                scrollToTopBtn.style.display = 'block';
+            } else {
+                scrollToTopBtn.style.display = 'none';
+            }
+        }
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+    </script>
+</body>
+</html>
